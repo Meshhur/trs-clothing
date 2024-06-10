@@ -2,11 +2,11 @@ import { initializeApp } from "firebase/app";
 import {
     GoogleAuthProvider,
     getAuth,
-    signInWithRedirect,
     signInWithPopup,
-    createUserWithEmailAndPassword
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
 } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDt60QEftx_XX7yZeiYjl2V1m5fmMiiOps",
@@ -17,18 +17,20 @@ const firebaseConfig = {
     appId: "1:572291440246:web:f2cae6ca2688073fd24957"
 };
 
-const firebaseApp = initializeApp(firebaseConfig)
+const firebaseApp = initializeApp(firebaseConfig);
 
-const googleProvider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
     prompt: "select_account"
-})
+});
 
-export const db = getFirestore();
+export const db = getFirestore(firebaseApp);
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInfo = { displayName: "" }) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) => {
+    if (!userAuth) return;
+
     const userDocRef = doc(db, 'users', userAuth.uid);
-    const userSnapshot = await getDoc(userDocRef)
+    const userSnapshot = await getDoc(userDocRef);
 
     if (!userSnapshot.exists()) {
         const { displayName, email } = userAuth;
@@ -40,19 +42,26 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = { di
                 email,
                 createdAt,
                 ...additionalInfo
-            })
+            });
         } catch (error) {
-            console.log("error creating the user", error.message);
+            console.error("Error creating the user:", error.message);
         }
     }
-    return userDocRef
-}
 
-export const auth = getAuth();
+    return userDocRef;
+};
+
+export const auth = getAuth(firebaseApp);
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
-// export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+
 export const createAuthUserEmailPass = async (email, password) => {
     if (!email || !password) return;
 
     return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInWithEmailPass = async (email, password) => {
+    if (!email || !password) return;
+
+    return await signInWithEmailAndPassword(auth, email, password);
 };
