@@ -4,9 +4,13 @@ import { Fragment, useContext } from 'react';
 import { ReactComponent as TrsLogo } from "../../assets/crown.svg"
 import { UserContext } from '../../context/User';
 import { signOutUser } from '../../utils/firebase/firebase';
+import CartIcon from '../../components/cart-icon/CartIcon';
+import CartDropdown from '../../components/cart-dropdown/Cart-dropdown';
+import { CartContext } from '../../context/Cart';
 
 export const Navigation = () => {
     const user = useContext(UserContext)
+    const { dropdownStatus, setDropdownStatus } = useContext(CartContext)
 
     return (
         <Fragment>
@@ -26,7 +30,9 @@ export const Navigation = () => {
                                 Sign-in
                             </Link>
                     }
+                    <CartIcon />
                 </div>
+                {dropdownStatus && <CartDropdown />}
             </div>
             <Outlet />
         </Fragment>
