@@ -26,7 +26,6 @@ const SignUp = () => {
 
         try {
             const { user } = await createAuthUserEmailPass(email, password);
-
             await createUserDocumentFromAuth(user, { displayName })
             setFormFields(defaultFormFields)
 
