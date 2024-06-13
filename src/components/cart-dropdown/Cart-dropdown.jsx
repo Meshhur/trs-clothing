@@ -1,10 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, } from 'react'
 import Button from '../button/Button'
 import "./Cart-dropdown.scss"
 import { CartContext } from '../../context/Cart'
 import CartItem from '../cart-item/CartItem'
+import { useNavigate } from 'react-router-dom'
 
 const CartDropdown = () => {
+    
+    const navigate = useNavigate()
 
     const cartContext = useContext(CartContext)
 
@@ -17,7 +20,7 @@ const CartDropdown = () => {
                     ))
                 }
             </div>
-            <Button>CHECKOUT</Button>
+            <Button onClick={() => navigate('/checkout')}>CHECKOUT</Button>
         </div>
     )
 }
