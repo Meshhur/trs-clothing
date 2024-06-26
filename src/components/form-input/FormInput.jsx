@@ -1,16 +1,16 @@
-import React from 'react'
-import "./FormInput.scss"
+import { FormInputLabel, Input, Group } from "./FormInput.styles.jsx"
 
 const FormInput = ({ label, ...props }) => {
     return (
-        <div className='group'>
-            <input className='form-input' {...props} />
-            <label
-                className={`${props.value.length ? 'shrink' : ""} form-input-label`}
-                htmlFor="">{label}
-            </label>
-        </div>
-    )
+        <Group>
+            <Input {...props} />
+            {label && (
+                <FormInputLabel shrink={props.value.length}>
+                    {label}
+                </FormInputLabel>
+            )}
+        </Group>
+    );
 }
 
 export default FormInput

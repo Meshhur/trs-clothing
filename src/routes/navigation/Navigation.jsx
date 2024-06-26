@@ -1,5 +1,4 @@
 import { Link, Outlet } from 'react-router-dom';
-import "./Navigation.styles.scss"
 import { Fragment, useContext } from 'react';
 import { ReactComponent as TrsLogo } from "../../assets/crown.svg"
 import { UserContext } from '../../context/User';
@@ -7,33 +6,35 @@ import { signOutUser } from '../../utils/firebase/firebase';
 import CartIcon from '../../components/cart-icon/CartIcon';
 import CartDropdown from '../../components/cart-dropdown/Cart-dropdown';
 import { CartContext } from '../../context/Cart';
+import { LogoContainer, NavLink, NavLinks, NavigationContainer } from './Navigation.styles';
 
 export const Navigation = () => {
     const user = useContext(UserContext)
-    const { dropdownStatus, setDropdownStatus } = useContext(CartContext)
+    const { dropdownStatus } = useContext(CartContext)
 
     return (
         <Fragment>
-            <div className='navigation'>
-                <Link className='logo-container' to='/'>
+            <NavigationContainer>
+
+                <LogoContainer to='/'>
                     <TrsLogo className='logo' />
-                </Link>
-                <div className="nav-links-container">
-                    <Link className='nav-link' to='/shop'>
+                </LogoContainer>
+                <NavLinks>
+                    <NavLink to='/shop'>
                         Shop
-                    </Link>
+                    </NavLink>
                     {
                         user.currentUser ? (
-                            <span className='nav-link' onClick={signOutUser}>Sign out</span>
+                            <NavLink as='span' onClick={signOutUser}>Sign out</NavLink>
                         ) :
-                            <Link className='nav-link' to='/auth'>
+                            <NavLink to='/auth'>
                                 Sign-in
-                            </Link>
+                            </NavLink>
                     }
                     <CartIcon />
-                </div>
+                </NavLinks>
                 {dropdownStatus && <CartDropdown />}
-            </div>
+            </NavigationContainer>
             <Outlet />
         </Fragment>
     )
