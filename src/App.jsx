@@ -8,6 +8,7 @@ import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/
 import { useEffect } from 'react';
 import { setCurrentUser } from './store/user/User.action.js';
 import { useDispatch } from 'react-redux';
+import { fetchCategoriesAsync } from './store/categories/category.action.js';
 
 function App() {
 
