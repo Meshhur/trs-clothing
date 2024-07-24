@@ -50,7 +50,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
         }
     }
 
-    return userDocRef;
+    return userSnapshot;
 };
 
 export const auth = getAuth(firebaseApp);
@@ -93,11 +93,17 @@ export const getCategoriesAndDocs = async () => {
     const querySnapshot = await getDocs(q)
     return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
 
-    // const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    //     const { title, items } = docSnapshot.data()
-    //     acc[title.toLowerCase()] = items
-    //     return acc;
-    // }, {});
+}
 
-    // return categoryMap
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (userAuth) => {
+                unsubscribe()
+                resolve(userAuth)
+            },
+            reject
+        )
+    })
 }
