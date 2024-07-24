@@ -40,4 +40,4 @@ export const store = createStore(persistedReducer, undefined, composedEnhancers)
 
 sagaMiddleware.run(rootSaga)
 
-export const persistor = persistStore(store) 
+export const persistor = persistStore(store)
