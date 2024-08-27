@@ -6,7 +6,7 @@ import Shop from './routes/shop/Shop.jsx';
 import Checkout from './routes/checkout/Checkout.jsx';
 import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/firebase/firebase.js';
 import { useEffect } from 'react';
-import { setCurrentUser } from './store/user/User.action.js';
+import { setCurrentUser } from './store/user/User.reducer.js';
 import { useDispatch } from 'react-redux';
 
 function App() {
